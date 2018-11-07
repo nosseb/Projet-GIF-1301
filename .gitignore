@@ -56,3 +56,18 @@ dkms.conf
 *.layout
 Makefile.win
 
+# Visual Studio
+.vs/
+*.sln
+*.vcxproj*
+Debug/
+x64/
+*.log
+*.pdb
+*.tlog/
+*.tlog
+unsuccessfulbuild
+*.lastbuildstate
+*.obj
+*.idb
+*.ilk
