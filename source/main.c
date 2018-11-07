@@ -11,12 +11,13 @@
 * 4- Ajouter une nouvelle livraison dans une Ville
 * 5- Supprimer une livraison dans une Ville
 * 6- Modifier livraison dans une Ville
-* 7- Recherche dans une Ville une certaine capacitÃ©
-* 8- Recherche n'importe quelle Ville une certaine capacitÃ©
-* 9- Transfert d'un chauffeur d'une Ville 1 Ã  une Ville 2
+* 7- Recherche dans une Ville une certaine capacité
+* 8- Recherche n'importe quelle Ville une certaine capacité
+* 9- Transfert d'un chauffeur d'une Ville 1 à une Ville 2
 **/
 
 #include <stdio.h>
+#include <stdlib.h>
 
 struct Livraison;
 
@@ -35,7 +36,20 @@ typedef struct Livraison {
 	tVille * enLivraison;
 } tLivraison;
 
+typedef tVille * ptVille;
+typedef tLivraison * ptLivraison;
+
 int main() {
+	
+	ptVille pdebutVille = (ptVille) malloc (sizeof (tVille));
+	ptVille pfinVille = (ptVille) malloc (sizeof (tVille));
+	pdebutVille->villeSuivante = pfinVille;
+	pfinVille->villePrecedente = pdebutVille;
+	pdebutVille->villePrecedente = NULL;
+	pfinVille->villeSuivante = NULL;
+	pdebutVille->listeLivraison = NULL;
+	pfinVille->listeLivraison = NULL;
+	
 	int c = -1;
 	
 	while (c != 10) {
@@ -98,4 +112,5 @@ int main() {
 	
 	return 1;
 }
+
 
