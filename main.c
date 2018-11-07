@@ -1,20 +1,20 @@
-/******************************
-* Loan Veyer, Robinson Besson *
-* Du 07/11/2018 au XX/XX/XXXX *
-*******************************/
+/**
+* Loan Veyer, Robinson Besson
+* Du 07/11/2018 au XX/XX/XXXX
+**/
 
-/************************************************************
-* Liste programme:											*
-* 1- Ajouter Ville											*
-* 2- Modifier Ville											*
-* 3- Supprimer Ville										*
-* 4- Ajouter une nouvelle livraison dans une Ville			*
-* 5- Supprimer une livraison dans une Ville					*
-* 6- Modifier livraison dans une Ville						*
-* 7- Recherche dans une Ville une certaine capacité			*
-* 8- Recherche n'importe quelle Ville une certaine capacité *
-* 9- Transfert d'un chauffeur d'une Ville 1 à une Ville 2	*
-*************************************************************/
+/**
+* Liste programme:
+* 1- Ajouter Ville
+* 2- Modifier Ville
+* 3- Supprimer Ville
+* 4- Ajouter une nouvelle livraison dans une Ville
+* 5- Supprimer une livraison dans une Ville
+* 6- Modifier livraison dans une Ville
+* 7- Recherche dans une Ville une certaine capacitÃ©
+* 8- Recherche n'importe quelle Ville une certaine capacitÃ©
+* 9- Transfert d'un chauffeur d'une Ville 1 Ã  une Ville 2
+**/
 
 #include <stdio.h>
 
