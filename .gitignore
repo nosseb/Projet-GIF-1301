@@ -52,5 +52,7 @@ Mkfile.old
 dkms.conf
 
 # Dev-C++
-.dev
-.layout
+*.dev
+*.layout
+Makefile.win
+
