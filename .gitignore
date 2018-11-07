@@ -56,3 +56,7 @@ dkms.conf
 *.layout
 Makefile.win
 
+# Visual Studio
+.vs/
+*.sln
+*.vcxproj*
