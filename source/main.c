@@ -91,19 +91,19 @@ void ajouterVille(ptVille px, int valVille) {
 
 // 2- Modifier numéro Ville
 void modifierVille(ptVille px, int num, int nouvVal) {
-	while (px->villeSuivante->villeSuivante != NULL) {
+	while (px->villeSuivante != NULL) {
 		if (px->numVille == num) {
 			px->numVille = nouvVal;
 			break;
 		}
+		px = px->villeSuivante;
 	}
 }
 
 
 // 3- Supprimer Ville
 void supprimerVille(ptVille px, int num) {
-	while (px->villeSuivante->villeSuivante != NULL) {
-		printf("coucou");
+	while (px->villeSuivante != NULL) {
 		if (px->villeSuivante->numVille == num) {
 			px->villeSuivante->villeSuivante->villePrecedente = px;
 			px->villeSuivante = px->villeSuivante->villeSuivante;
@@ -114,8 +114,17 @@ void supprimerVille(ptVille px, int num) {
 }
 
 
+// 4- Ajouter une livraison dans une ville
+void ajouteLivraison() {
+
+}
+
+
 // 11- Charger structure depuis un fichier
-//void chargerStructure()
+void chargerStructure() {
+	FILE *f;
+	f = fopen("Toto.dat");
+}
 
 
 
@@ -142,6 +151,9 @@ int main() {
 	// Pointeurs listes nulles
 	pdebutVille->listeLivraison = NULL;
 	pfinVille->listeLivraison = NULL;
+
+	// Pointeur vers ville active
+	ptVille px = pdebutVille;
 	
 
 
@@ -150,18 +162,18 @@ int main() {
 	
 	// Boucle menu
 	while (c != 20) {
-		printf("1- Ajouter Ville\n");
-		printf("2- Modifier Ville\n");
-		printf("3- Supprimer Ville");
-		printf("4- Ajouter une nouvelle livraison dans une Ville\n");
-		printf("5- Supprimer une livraison dans une Ville\n");
-		printf("6- Modifier livraison dans une Ville\n");
-		printf("7- Recherche dans une Ville une certaine capacite\n");
-		printf("8- Recherche n'importe quelle Ville une certaine capacite\n");
-		printf("9- Transfert d'un chauffeur d'une Ville 1 a une Ville 2\n");
-		printf("10- Enregistrer fichier\n");
-		printf("11- Charger fichier\n");
-		printf("20- Quitter\n");
+		printf("1-	Ajouter Ville\n");
+		printf("2-	Modifier Ville\n");
+		printf("3-	Supprimer Ville");
+		printf("4-	Ajouter une nouvelle livraison dans une Ville\n");
+		printf("5-	Supprimer une livraison dans une Ville\n");
+		printf("6-	Modifier livraison dans une Ville\n");
+		printf("7-	Recherche dans une Ville une certaine capacite\n");
+		printf("8-	Recherche n'importe quelle Ville une certaine capacite\n");
+		printf("9-	Transfert d'un chauffeur d'une Ville 1 a une Ville 2\n");
+		printf("10-	Enregistrer fichier\n");
+		printf("11-	Charger fichier\n");
+		printf("20-	Quitter\n");
 		
 		printf("Entrez le numero de la fonction a appeler: ");
 		scanf("%d", &c);
@@ -170,11 +182,46 @@ int main() {
 		while (c < 0 || c > 12) {
 			printf("\n");
 			printf("Entrez le numero de la fonction a appeler: ");
-			scanf("%d", &c);
+			scanf("%d\n", &c);
 		}
 		
 
-		if (c == 11) {
+		if (c == 1) {
+			int nouvVal;
+			px = pdebutVille;
+			printf("Entrer le numero de la ville: ");
+			scanf("%d\n", &nouvVal);
+			ajouterVille(px, nouvVal);
+			px = pdebutVille->villeSuivante;
+			afficherListeVille(px);
+		}
+
+
+		else if (c == 2) {
+			int nouvVal, ancienneVal;
+			printf("Entrer le numero de la ville actuelle: ");
+			scanf("%d\n", &ancienneVal);
+			printf("Entrer le nouveau numero de la ville: ");
+			scanf("%d\n", &nouvVal);
+			px = pdebutVille->villeSuivante;
+			modifierVille(px, ancienneVal, nouvVal);
+			px = pdebutVille->villeSuivante;
+			afficherListeVille(px);
+		}
+
+
+		else if (c == 3) {
+			int valSupp;
+			printf("Entrer le numero de la ville a supprimer: ");
+			scanf("%d\n", &valSupp);
+			px = pdebutVille->villeSuivante;
+			supprimerVille(px, valSupp);
+			px = pdebutVille->villeSuivante;
+			afficherListeVille(px);
+		}
+		
+		
+		else if (c == 11) {
 
 		}
 	}
