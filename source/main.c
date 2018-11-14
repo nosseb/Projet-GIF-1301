@@ -3,11 +3,6 @@
  *	Du 07/11/2018 au XX/XX/XXXX
  **/
 
-
-
-
-
-
 /**
  *	Liste programmes:
  *		1	Ajouter Ville
@@ -16,39 +11,23 @@
  *		4	Ajouter une nouvelle livraison dans une Ville
  *		5	Supprimer une livraison dans une Ville
  *		6	Modifier livraison dans une Ville
- *		7	Recherche dans une Ville une certaine capacité
- *		8	Recherche n'importe quelle Ville une certaine capacité
- *		9	Transfert d'un chauffeur d'une Ville 1 à une Ville 2
+ *		7	Recherche dans une Ville une certaine capacit?
+ *		8	Recherche n'importe quelle Ville une certaine capacit?
+ *		9	Transfert d'un chauffeur d'une Ville 1 ? une Ville 2
  *		10	Enregistrer dans un fichier
  **/
 
-
-
-
-
-#pragma warning(disable : 4996)	// Désactives les allertes causés par scanf
-
-
-
-
-
 #include <stdio.h>
-#include <stdlib.h>	// Malloc
+#include <stdlib.h>
 
-
-
-
-
-struct Livraison;	// Redéfinit par la suite, nécessaire pour déclarer struct Ville
-
+struct Livraison;
 
 typedef struct Ville {
-	int numVille;	// Numéro de la ville
+	int numVille;
 	struct Ville * villeSuivante;
 	struct Ville * villePrecedente;
 	struct Livraison * listeLivraison;
 } tVille;
-
 
 typedef struct Livraison {
 	int chauffeur;
@@ -58,13 +37,8 @@ typedef struct Livraison {
 	tVille * enLivraison;
 } tLivraison;
 
-
-typedef tVille * ptVille;	// Définition type pointeur vers struct tVille
-typedef tLivraison * ptLivraison;	// Définition type pointeur vers struct tLivraison
-
-
-
-
+typedef tVille * ptVille;
+typedef tLivraison * ptLivraison;
 
 // Afficher Liste Ville
 void afficherListeVille(ptVille px) {
@@ -73,38 +47,35 @@ void afficherListeVille(ptVille px) {
 		printf("%d\n", px->numVille);
 		px = px->villeSuivante;
 	}
-	printf("Fin de la liste des villes");
+	printf("Fin de la liste des villes\n\n\n");
 }
-
 
 // 1- Ajouter Ville
 void ajouterVille(ptVille px, int valVille) {
-	px->villeSuivante->villePrecedente = (ptVille)malloc(sizeof(tVille));
+	px->villeSuivante->villePrecedente = (ptVille) malloc (sizeof (tVille));
 	px->villeSuivante->villePrecedente->villeSuivante = px->villeSuivante;
 	px->villeSuivante->villePrecedente->villePrecedente = px;
 	px->villeSuivante = px->villeSuivante->villePrecedente;
 	px->villeSuivante->numVille = valVille;
-
+	
 	px->villeSuivante->listeLivraison = NULL;
 }
 
-
-// 2- Modifier numéro Ville
+// 2- Modifier Ville
 void modifierVille(ptVille px, int num, int nouvVal) {
-	while (px->villeSuivante->villeSuivante != NULL) {
-		if (px->numVille == num) {
+	while (px->villeSuivante != NULL) {
+		if(px->numVille == num) {
 			px->numVille = nouvVal;
 			break;
 		}
+		px = px->villeSuivante;
 	}
 }
 
-
 // 3- Supprimer Ville
 void supprimerVille(ptVille px, int num) {
-	while (px->villeSuivante->villeSuivante != NULL) {
-		printf("coucou");
-		if (px->villeSuivante->numVille == num) {
+	while (px->villeSuivante != NULL) {
+		if(px->villeSuivante->numVille == num) {
 			px->villeSuivante->villeSuivante->villePrecedente = px;
 			px->villeSuivante = px->villeSuivante->villeSuivante;
 			break;
@@ -113,42 +84,25 @@ void supprimerVille(ptVille px, int num) {
 	}
 }
 
-
-// 11- Charger structure depuis un fichier
-//void chargerStructure()
-
-
-
-
+// 4- Ajouter une livraison dans une ville
+void ajouteLivraison() {
+	
+}
 
 int main() {
 	
-	// Création des bidons
 	ptVille pdebutVille = (ptVille) malloc (sizeof (tVille));
 	ptVille pfinVille = (ptVille) malloc (sizeof (tVille));
-
-	// Pointeurs entre les deux bidons
 	pdebutVille->villeSuivante = pfinVille;
 	pfinVille->villePrecedente = pdebutVille;
-
-	// Indice des villes
-	pdebutVille->numVille = -1;
-	pfinVille->numVille = -1;
-
-	// Pointeurs terminaux
 	pdebutVille->villePrecedente = NULL;
 	pfinVille->villeSuivante = NULL;
-
-	// Pointeurs listes nulles
 	pdebutVille->listeLivraison = NULL;
 	pfinVille->listeLivraison = NULL;
+	ptVille px = pdebutVille;
 	
-
-
-	// Entrée pour menu
+	
 	int c = -1;
-	
-	// Boucle menu
 	while (c != 20) {
 		printf("1- Ajouter Ville\n");
 		printf("2- Modifier Ville\n");
@@ -163,23 +117,56 @@ int main() {
 		printf("11- Charger fichier\n");
 		printf("20- Quitter\n");
 		
-		printf("Entrez le numero de la fonction a appeler: ");
+		printf("\n\nEntrez le numero de la fonction a appeler: ");
 		scanf("%d", &c);
-
-		// Boucle entrée non valide
-		while (c < 0 || c > 12) {
-			printf("\n");
-			printf("Entrez le numero de la fonction a appeler: ");
+		while (c < 0 || c > 10) {
+			printf("\nEntrez le numero de la fonction a appeler: ");
 			scanf("%d", &c);
 		}
 		
-
-		if (c == 11) {
-
+		if (c == 1) {
+			int nouvVal;
+			px = pdebutVille;
+			printf("Entrer le numero de la ville: ");
+			scanf("%d", &nouvVal);
+			ajouterVille(px, nouvVal);
+			px = pdebutVille->villeSuivante;
+			afficherListeVille(px);
+			
+		} else if (c == 2) {
+			int nouvVal, ancienneVal;
+			printf("Entrer le numero de la ville actuelle: ");
+			scanf("%d", &ancienneVal);
+			printf("Entrer le nouveau numero de la ville: ");
+			scanf("%d", &nouvVal);
+			px = pdebutVille->villeSuivante;
+			modifierVille(px, ancienneVal, nouvVal);
+			px = pdebutVille->villeSuivante;
+			afficherListeVille(px);
+			
+		} else if (c == 3) {
+			int valSupp;
+			printf("Entrer le numero de la ville a supprimer: ");
+			scanf("%d", &valSupp);
+			px = pdebutVille->villeSuivante;
+			supprimerVille(px, valSupp);
+			px = pdebutVille->villeSuivante;
+			afficherListeVille(px);
+			
+		} else if (c == 4) {
+			
+		} else if (c == 5) {
+			
+		} else if (c == 6) {
+			
+		} else if (c == 7) {
+			
+		} else if (c == 8) {
+			
+		} else if (c == 9) {
+			
 		}
 	}
 	
 	return 1;
 }
-
-
