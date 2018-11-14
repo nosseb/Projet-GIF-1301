@@ -73,7 +73,23 @@ void afficherListeVille(ptVille px) {
 		printf("%d\n", px->numVille);
 		px = px->villeSuivante;
 	}
-	printf("Fin de la liste des villes");
+	printf("Fin de la liste des villes\n\n\n");
+}
+
+
+// Afficher Liste Livraison
+void afficherListeLivraison(ptVille px, int valVille) {
+	printf("Liste de Livraison :\n");
+	while (px->villeSuivante != NULL) {
+		if (px->numVille == valVille) {
+			ptLivraison py = px->listeLivraison;
+			while (py->livraisonSuivante != NULL) {
+				printf("%d\n", py->chauffeur);
+				py = py->livraisonSuivante;
+			}
+		}
+	}
+	printf("Fin de la liste des livraisons\n\n\n");
 }
 
 
@@ -115,7 +131,7 @@ void supprimerVille(ptVille px, int num) {
 
 
 // 4- Ajouter une livraison dans une ville
-void ajouteLivraison() {
+void ajouteLivraison(int chauffeur, int capacite, int disponible, int valVille) {
 
 }
 
@@ -179,7 +195,7 @@ int main() {
 		scanf("%d", &c);
 
 		// Boucle entrée non valide
-		while (c < 0 || c > 12) {
+		while (c < 0 || c > 20) {
 			printf("\n");
 			printf("Entrez le numero de la fonction a appeler: ");
 			scanf("%d\n", &c);
@@ -218,6 +234,41 @@ int main() {
 			supprimerVille(px, valSupp);
 			px = pdebutVille->villeSuivante;
 			afficherListeVille(px);
+		}
+
+
+		else if (c == 4) {
+
+		}
+
+
+		else if (c == 5) {
+
+		}
+
+
+		else if (c == 6) {
+
+		}
+
+
+		else if (c == 7) {
+
+		}
+
+
+		else if (c == 8) {
+
+		}
+
+
+		else if (c == 9) {
+
+		}
+
+
+		else if (c == 10) {
+
 		}
 		
 		
