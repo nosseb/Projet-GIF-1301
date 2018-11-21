@@ -76,18 +76,30 @@ void afficherListeVille(ptVille px)
 // Afficher Liste Livraison
 void afficherListeLivraison(ptVille px, int valVille)
 {
-	printf("Liste de Livraison :\n");
+	printf("Liste de Livraison de la ville %d :\n", valVille);
+	printf("chauffeur / capacite / disponible / destination\n\n");
 	while (px->villeSuivante != NULL)
 	{
 		if (px->numVille == valVille)
 		{
 			ptLivraison py = px->listeLivraison;
-			while (py->livraisonSuivante != NULL)
+			if (py != NULL)
 			{
-				printf("%d\n", py->chauffeur);
-				py = py->livraisonSuivante;
+				while (py != NULL)
+				{
+					if (py->disponible == 0)
+					{
+						printf("%d / %d / Pas disponible / %d \n", py->chauffeur, py->capacite, py->enLivraison->numVille);
+					}
+					else
+					{
+						printf("%d / %d / Disponible \n", py->chauffeur, py->capacite);
+					}
+					py = py->livraisonSuivante;
+				}
 			}
 		}
+		px = px->villeSuivante;
 	}
 	printf("Fin de la liste des livraisons\n\n\n");
 }
@@ -138,9 +150,83 @@ void supprimerVille(ptVille px, int num)
 
 
 // 4- Ajouter une livraison dans une ville
-void ajouteLivraison(int chauffeur, int capacite, int disponible, int valVille)
+void ajouteLivraison(ptVille px, ptVille pz, int valVille, int villeDestination, int chauffeur, int capacite, int disponible)
 {
+	while (px->villeSuivante != NULL)
+	{
+		if (px->numVille == valVille)
+		{
+			ptLivraison py = px->listeLivraison;
 
+			if (py == NULL)
+			{
+				px->listeLivraison = (ptLivraison)malloc(sizeof(tLivraison));
+
+				py = px->listeLivraison;
+
+			}
+			else
+			{
+				while (py->livraisonSuivante != NULL)
+				{
+					py = py->livraisonSuivante;
+				}
+				py->livraisonSuivante = (ptLivraison)malloc(sizeof(tLivraison));
+				py = py->livraisonSuivante;
+			}
+
+			py->chauffeur = chauffeur;
+			py->capacite = capacite;
+			py->disponible = disponible;
+			py->livraisonSuivante = NULL;
+
+			if (pz != NULL)
+			{
+				while (pz->villeSuivante != NULL)
+				{
+					if (pz->numVille == villeDestination)
+					{
+						py->enLivraison = pz;
+					}
+					pz = pz->villeSuivante;
+				}
+			}
+
+		}
+		px = px->villeSuivante;
+	}
+}
+
+
+// 5- Supprimer une livraison dans une Ville
+void supprimerLivraison(ptVille px, int valVille, int chauffeur)
+{
+	while (px->villeSuivante != NULL)
+	{
+		if (px->numVille == valVille)
+		{
+
+			ptLivraison py = px->listeLivraison;
+			if (py != NULL) {
+				if (py->chauffeur == chauffeur)
+				{
+					py = NULL;
+					printf("essaye 1");
+					break;
+				}
+
+				while (py->livraisonSuivante != NULL)
+				{
+					if (py->livraisonSuivante->chauffeur == chauffeur)
+					{
+						py->livraisonSuivante = py->livraisonSuivante->livraisonSuivante;
+					}
+					py = py->livraisonSuivante;
+				}
+			}
+		}
+		px = px->villeSuivante;
+	}
 }
 
 
@@ -361,6 +447,8 @@ int main()
 		printf("9-	Transfert d'un chauffeur d'une Ville 1 a une Ville 2\n");
 		printf("10-	Enregistrer fichier\n");
 		printf("11-	Charger fichier\n");
+		printf("12-	Afficher liste ville\n");
+		printf("13-	Afficher livraison d'une ville\n");
 		printf("20-	Quitter\n\n");
 		
 		printf("Entrez le numero de la fonction a appeler: ");
@@ -410,7 +498,7 @@ int main()
 			int valSupp;
 			printf("Entrer le numero de la ville a supprimer: ");
 			scanf("%d", &valSupp);
-			px = pdebutVille->villeSuivante;
+			px = pdebutVille;
 			supprimerVille(px, valSupp);
 			px = pdebutVille->villeSuivante;
 			afficherListeVille(px);
@@ -420,12 +508,58 @@ int main()
 		else if (c == 4)
 		{
 			// Ajout livraison
+			int chauffeur, capacite, disponible, valVille, villeLivraison;
+
+			printf("Entrer le numero du chauffeur: ");
+			scanf("%d", &chauffeur);
+
+			printf("Entrer la capacite: ");
+			scanf("%d", &capacite);
+
+			printf("Entrer sa disponibilite: ");
+			scanf("%d", &disponible);
+
+			printf("Entrer le numero de la ville a laquelle il vient: ");
+			scanf("%d", &valVille);
+
+			if (disponible == 0)
+			{
+				printf("Entrer le numero de la ville dans laquelle il va: ");
+				scanf("%d", &villeLivraison);
+
+				px = pdebutVille->villeSuivante;
+				ajouteLivraison(px, px, valVille, villeLivraison, chauffeur, capacite, disponible);
+			}
+			else
+			{
+				villeLivraison = -1;
+
+				px = pdebutVille->villeSuivante;
+				ajouteLivraison(px, NULL, valVille, villeLivraison, chauffeur, capacite, disponible);
+			}
+			printf("\n");
+
+			px = pdebutVille->villeSuivante;
+			afficherListeLivraison(px, valVille);
 		}
 
 
 		else if (c == 5)
 		{
 			// Suppression livraison
+			int valVille, chauffeur;
+
+			printf("Entrer le numero de la ville de la livraison: ");
+			scanf("%d", &valVille);
+
+			printf("Entrer le numero du chauffeur de la livraison a supprimer: ");
+			scanf("%d", &chauffeur);
+
+			px = pdebutVille->villeSuivante;
+			supprimerLivraison(px, valVille, chauffeur);
+
+			px = pdebutVille->villeSuivante;
+			afficherListeLivraison(px, valVille);
 		}
 
 
@@ -463,6 +597,27 @@ int main()
 		{
 			// Chargement fichier
 			chargerStructure(pdebutVille, px);
+		}
+
+
+		else if (c == 12)
+		{
+			// Affichage villes
+			px = pdebutVille->villeSuivante;
+			afficherListeVille(px);
+		}
+
+
+		else if (c == 13)
+		{
+			// Affichage ville
+			int valVille;
+
+			printf("Entrer le numero de la ville : ");
+			scanf("%d", &valVille);
+
+			px = pdebutVille->villeSuivante;
+			afficherListeLivraison(px, valVille);
 		}
 	}
 	
